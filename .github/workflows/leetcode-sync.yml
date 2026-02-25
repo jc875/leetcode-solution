@@ -1,20 +1,23 @@
-name: Sync LeetCode Solutions
+name: Sync LeetCode CN Solutions
 
 on:
-  push:
-    branches: [ main ]
+  workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'  # 每天自动跑一次
+    - cron: '0 16 * * *'
 
 jobs:
-  build:
+  sync-leetcode:
     runs-on: ubuntu-latest
     steps:
-      - name: Sync
-        uses: josephstevens1040/leetcode-sync-action@v1.1
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Sync LeetCode 题解
+        uses: joshcai/leetcode-sync@v2.0
         with:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          LEETCODE_SESSION: ${{ secrets.LEETCODE_SESSION }}
-          LEETCODE_CSRF_TOKEN: ${{ secrets.LEETCODE_CSRF_TOKEN }}
-          # 如果你是中国版 leetcode.cn，把下面改成 true
-          CN_ONLY: false
+          leetcode_session: ${{ secrets.LEETCODE_SESSION }}
+          leetcode_csrf_token: ${{ secrets.LEETCODE_CSRF_TOKEN }}
+          github_token: ${{ secrets.GH_TOKEN }}
+          leetcode_type: 'cn'
+          output_dir: './leetcode-solutions'
+          only_ac: true
