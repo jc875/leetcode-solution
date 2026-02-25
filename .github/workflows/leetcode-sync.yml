@@ -1,0 +1,20 @@
+name: Sync LeetCode Solutions
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * *'  # 每天自动跑一次
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync
+        uses: josephstevens1040/leetcode-sync-action@v1.1
+        with:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          LEETCODE_SESSION: ${{ secrets.LEETCODE_SESSION }}
+          LEETCODE_CSRF_TOKEN: ${{ secrets.LEETCODE_CSRF_TOKEN }}
+          # 如果你是中国版 leetcode.cn，把下面改成 true
+          CN_ONLY: false
